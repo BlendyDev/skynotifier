@@ -142,10 +142,10 @@ public class SkyNotifier {
     }
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (ConfigGUI.KEYBINDING.isKeyDown()) {
+        if (ConfigGUI.KEYBINDING.isPressed()) {
             Minecraft.getMinecraft().displayGuiScreen(new ConfigGUI());
         }
-        if (BlockDataScanner.KEYBINDING.isKeyDown()) {
+        if (BlockDataScanner.KEYBINDING.isPressed()) {
             BlockDataScanner.copyBlockData(Minecraft.getMinecraft().thePlayer);
         }
     }

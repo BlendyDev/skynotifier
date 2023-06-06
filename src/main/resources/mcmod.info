@@ -2,7 +2,7 @@
 {
   "modid": "skynotifier",
   "name": "SkyNotifier",
-  "description": "A notifier for Hypixel Skyblock",
+  "description": "A notifier/utility mod for Hypixel Skyblock",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

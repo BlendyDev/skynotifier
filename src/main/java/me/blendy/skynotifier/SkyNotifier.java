@@ -1,8 +1,6 @@
 package me.blendy.skynotifier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelMinecart;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -17,12 +15,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import scala.collection.parallel.ParIterableLike;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Mod(modid = SkyNotifier.MODID, version = SkyNotifier.VERSION)
 public class SkyNotifier {
@@ -41,9 +37,10 @@ public class SkyNotifier {
         ClientRegistry.registerKeyBinding(ConfigGUI.KEYBINDING);
         ClientRegistry.registerKeyBinding(BlockDataScanner.KEYBINDING);
         ConfigHandler.init();
-        fileStuff();
+        //fileStuff();
 		// some example code
     }
+    @SuppressWarnings("unused")
     public static void runOnMainThread(Runnable task) {
         Minecraft minecraft = Minecraft.getMinecraft();
         if (minecraft.isCallingFromMinecraftThread()) {
@@ -55,58 +52,59 @@ public class SkyNotifier {
         }
     }
 
-    public void fileStuff() {
-        Timer timer = new Timer();
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // Your code to run every 1 second goes here
-                String path = "/home/blendy/slimeafk";
-                File file = new File (path);
-                StringBuilder sb = new StringBuilder();
-
-                try (FileInputStream fis = new FileInputStream(file)) {
-                    int content;
-                    while ((content = fis.read()) != -1) {
-                        sb.append((char) content);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                String fileContent = sb.toString();
-                if (fileContent.equals("")) return;
-
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-                    writer.write("");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (fileContent.toLowerCase().contains("/hotbar")) {
-                    Runnable mainThread = () -> {
-                        KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[Integer.parseInt(fileContent.split(" ")[1].substring(0,1))-1].getKeyCode(), true);
-                        Timer b = new Timer();
-                        b.schedule(new TimerTask() {
-                            @Override
-                            public void run(){
-                                KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[Integer.parseInt(fileContent.split(" ")[1].substring(0,1))-1].getKeyCode(), false);
-                            }
-                        }, 250L);
-                    };
-                    runOnMainThread(mainThread);
-                    return;
-                }
-                if (fileContent.toLowerCase().contains("/ss")) {
-                    Runnable mainThread = () -> ScreenshotHandler.takeScreenshot(path+".png");
-                    runOnMainThread(mainThread);
-                    return;
-                }
-                System.out.println(fileContent);
-                Minecraft.getMinecraft().thePlayer.sendChatMessage(fileContent);
-            }
-        }, 0, 300);
-    }
+//    public void fileStuff() {
+//        //dumb code wrote in a tight deadline, TODO reimplement
+//        Timer timer = new Timer();
+//
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                // Your code to run every 1 second goes here
+//                String path = "/home/blendy/slimeafk";
+//                File file = new File (path);
+//                StringBuilder sb = new StringBuilder();
+//
+//                try (FileInputStream fis = new FileInputStream(file)) {
+//                    int content;
+//                    while ((content = fis.read()) != -1) {
+//                        sb.append((char) content);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                String fileContent = sb.toString();
+//                if (fileContent.equals("")) return;
+//
+//                try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+//                    writer.write("");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                if (fileContent.toLowerCase().contains("/hotbar")) {
+//                    Runnable mainThread = () -> {
+//                        KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[Integer.parseInt(fileContent.split(" ")[1].substring(0,1))-1].getKeyCode(), true);
+//                        Timer b = new Timer();
+//                        b.schedule(new TimerTask() {
+//                            @Override
+//                            public void run(){
+//                                KeyBinding.setKeyBindState(Minecraft.getMinecraft().gameSettings.keyBindsHotbar[Integer.parseInt(fileContent.split(" ")[1].substring(0,1))-1].getKeyCode(), false);
+//                            }
+//                        }, 250L);
+//                    };
+//                    runOnMainThread(mainThread);
+//                    return;
+//                }
+//                if (fileContent.toLowerCase().contains("/ss")) {
+//                    Runnable mainThread = () -> ScreenshotHandler.takeScreenshot(path+".png");
+//                    runOnMainThread(mainThread);
+//                    return;
+//                }
+//                System.out.println(fileContent);
+//                Minecraft.getMinecraft().thePlayer.sendChatMessage(fileContent);
+//            }
+//        }, 0, 300);
+//    }
     @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event) {
         String msg = message.replaceAll("%msg", event.message.getUnformattedText()); // get the unformatted chat message

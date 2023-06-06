@@ -8,6 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -28,17 +29,17 @@ public class BlockDataScanner {
             BlockPos blockPos = result.getBlockPos();
             IBlockState blockState = player.worldObj.getBlockState(blockPos);
             TileEntity tileEntity = world.getTileEntity(blockPos);
-            int meta = tileEntity.getBlockType().getMetaFromState(blockState);
+            int meta = blockState.getBlock().getMetaFromState(blockState);
             if (tileEntity instanceof IInventory) {
                 NBTTagCompound tileData = new NBTTagCompound();
                 tileEntity.writeToNBT(tileData);
-                ImBadAtNamingClassesUtil.copyToClipboard(meta + " " + tileData.toString());
-                player.sendChatMessage("§aCopied tile entity NBT data!");
+                ImBadAtNamingClassesUtil.copyToClipboard(meta + " " + tileData);
+                player.addChatMessage(new ChatComponentText("§aCopied tile entity NBT data!"));
             } else {
                 ImBadAtNamingClassesUtil.copyToClipboard(String.valueOf(meta));
-                player.sendChatMessage("§aCopied block metadata!");
+                player.addChatMessage(new ChatComponentText("§aCopied block metadata!"));
             }
-        } else player.sendChatMessage("§cCouldn't find a block to copy data from.");
+        } else player.addChatMessage(new ChatComponentText("§cCouldn't find a block to copy data from."));
 
     }
 }

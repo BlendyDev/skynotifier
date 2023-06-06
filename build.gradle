@@ -17,7 +17,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 
 version = "1.0"
 group = "dreamys.studio" //http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "examplemod" //name of the output jar
+archivesBaseName = "skynotifier" //name of the output jar
 
 sourceCompatibility = targetCompatibility = 1.8 //using java 8
 compileJava.options.encoding = "UTF-8"
@@ -50,6 +50,7 @@ dependencies {
     //your libraries wont be accessible outside of intellij
     //example:
     //compile "studio.dreamys:libSkyblock:1.1.1"
+    compile group: 'javax.websocket', name: 'javax.websocket-api', version: '1.1'
 }
 
 processResources {

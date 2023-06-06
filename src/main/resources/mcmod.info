@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "skynotifier",
+  "name": "SkyNotifier",
+  "description": "A notifier for Hypixel Skyblock",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude", "dxxxxy"],
-  "credits": "The Forge and FML guys, for making this example. dxxxxy for fixing it.",
+  "authorList": ["BlendyDev"],
+  "credits": "dxxxxy for the great template repo.",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
